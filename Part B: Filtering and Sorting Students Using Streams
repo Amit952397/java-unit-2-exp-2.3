@@ -1,0 +1,59 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Student {
+    private String name;
+    private double marks;
+
+    public Student(String name, double marks) {
+        this.name = name;
+        this.marks = marks;
+    }
+
+    public String getName() { return name; }
+    public double getMarks() { return marks; }
+
+    @Override
+    public String toString() {
+        return "Student{Name='" + name + "', Marks=" + marks + "}";
+    }
+}
+
+public class StudentStreamExample {
+    public static void main(String[] args) {
+        List<Student> students = Arrays.asList(
+            new Student("Amit", 82),
+            new Student("John", 70),
+            new Student("Daisy", 90),
+            new Student("Bob", 76),
+            new Student("Alice", 65)
+        );
+
+        System.out.println("Original List:");
+        students.forEach(System.out::println);
+
+        System.out.println("\nStudents with marks > 75 sorted by marks:");
+        List<String> topStudents = students.stream()
+                .filter(s -> s.getMarks() > 75)              
+                .sorted(Comparator.comparingDouble(Student::getMarks)) // Sorting
+                .map(Student::getName)                  
+                .collect(Collectors.toList());              
+
+        topStudents.forEach(System.out::println);
+    }
+}
+
+output
+
+Original List:
+Student{Name='Amit', Marks=82.0}
+Student{Name='John', Marks=70.0}
+Student{Name='Daisy', Marks=90.0}
+Student{Name='Bob', Marks=76.0}
+Student{Name='Alice', Marks=65.0}
+
+Students with marks > 75 sorted by marks:
+Bob
+Amit
+Daisy
+
